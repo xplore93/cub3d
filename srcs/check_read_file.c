@@ -6,26 +6,34 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 07:50:26 by estina            #+#    #+#             */
-/*   Updated: 2019/12/11 15:43:10 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/13 13:48:55 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-static int	check_sides(char *line, t_settings *settings)
+static int	set_texture(t_cub3d *t, char *line, int i)
+{
+	while (*line && *line == ' ')
+		line++;
+	t->tex[i].addr = ft_strdup(line);
+	return (1);
+}
+
+static int	check_sides(char *line, t_cub3d *t)
 {
 	if (!ft_strncmp(line, "NO", 2))
-		return (set_north_texture(settings, ++line));
+		return (set_texture(t, line + 2, 0));
 	else if (!ft_strncmp(line, "SO", 2))
-		return (set_south_texture(settings, ++line));
+		return (set_texture(t, line + 2, 1));
 	else if (!ft_strncmp(line, "WE", 2))
-		return (set_west_texture(settings, ++line));
+		return (set_texture(t, line + 2, 2));
 	else if (!ft_strncmp(line, "EA", 2))
-		return (set_east_texture(settings, ++line));
+		return (set_texture(t, line + 2, 3));
 	return (0);
 }
 
-void		read_from_file(t_settings *settings)
+void		read_from_file(t_cub3d *t)
 {
 	char	*line;
 	int		result;
@@ -33,41 +41,41 @@ void		read_from_file(t_settings *settings)
 	char	*aux;
 
 	result = 0;
-	while ((read = get_next_line(settings->fd, &line)) > 0)
+	while ((read = get_next_line(t->fd, &line)) > 0)
 	{
 		aux = line;
 		while (*line == ' ')
 			line++;
 		if (*line == 'R')
-			result += set_resolution(settings, line + 1);
-		else if (*line == 'S')
-			result += set_sprite(settings, ++line);
+			result += set_resolution(t, line + 1);
+		else if (!ft_strncmp(line, "S ", 2))
+			result += set_sprite(t, ++line);
 		else if (*line == 'F' || *line == 'C')
-			result += set_floor_ceilling_color(settings, line);
+			result += set_floor_ceilling_color(t, line);
 		else
-			result += check_sides(line, settings);
+			result += check_sides(line, t);
 		free(aux);
 		if (result == 8)
 			return ;
 	}
-	error_handle(settings, "Wrong number of parameters");
+	error_handle(t, "Wrong number of parameters");
 }
 
-void		check_file(int argc, char **argv, t_settings *settings)
+void		check_file(int argc, char **argv, t_cub3d *t)
 {
 	int		ch;
 
 	if (argc != 2)
-		error_handle(settings, "Usage: ./cub3D <file>");
-	settings->fd = open(argv[1], O_RDONLY);
-	if (settings->fd < 0)
-		error_handle(settings, "<file> does not exist or is unreachable");
+		error_handle(t, "Usage: ./cub3D <file>");
+	t->fd = open(argv[1], O_RDONLY);
+	if (t->fd < 0)
+		error_handle(t, "<file> does not exist or is unreachable");
 	ch = open(argv[1], O_DIRECTORY);
 	if (ch > 0)
 	{
 		close(ch);
-		error_handle(settings, "<file> is a directory");
+		error_handle(t, "<file> is a directory");
 	}
 	if (ft_strncmp(ft_strrchr(argv[1], '.'), ".cub", 5))
-		error_handle(settings, "<file> is not a .cub extension");
+		error_handle(t, "<file> is not a .cub extension");
 }

@@ -6,13 +6,13 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 07:54:02 by estina            #+#    #+#             */
-/*   Updated: 2019/12/11 18:08:00 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/13 16:43:38 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	error_handle(t_settings *settings, const char *s)
+void	error_handle(t_cub3d *t, const char *s)
 {
 	int		i;
 
@@ -22,33 +22,33 @@ void	error_handle(t_settings *settings, const char *s)
 	else
 		ft_printf("%s\n", s);
 	i = -1;
-	if (settings->map)
+	if (t->map)
 	{
-		while (++i < settings->map_rows)
-			free(settings->map[i]);
-		free(settings->map);
+		while (++i < t->map_rows)
+			free(t->map[i]);
+		free(t->map);
 	}
-	if (settings->fd > 0)
-		close(settings->fd);
-	mlx_destroy_window(settings->mlx_ptr, settings->win_ptr);
+	if (t->fd > 0)
+		close(t->fd);
+	mlx_destroy_window(t->mlx, t->win);
 	exit(1);
 }
 
-int		exit_program(t_settings *settings)
+int		exit_program(t_cub3d *t)
 {
 	int		i;
 
 	ft_printf("Closing the program...\n");
 	i = -1;
-	if (settings->map)
+	if (t->map)
 	{
-		while (++i < settings->map_rows)
-			free(settings->map[i]);
-		free(settings->map);
+		while (++i < t->map_rows)
+			free(t->map[i]);
+		free(t->map);
 	}
-	if (settings->fd > 0)
-		close(settings->fd);
-	mlx_destroy_window(settings->mlx_ptr, settings->win_ptr);
+	if (t->fd > 0)
+		close(t->fd);
+	mlx_destroy_window(t->mlx, t->win);
 	exit(0);
 	return (0);
 }
