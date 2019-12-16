@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 16:01:30 by estina            #+#    #+#             */
-/*   Updated: 2019/12/16 17:48:41 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/16 19:26:12 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,34 +49,17 @@ static void	movement(t_cub3d *t, double x, double y, int diag)
 		t->y_pos += y * ms;
 }
 
-static int	move_diag(t_cub3d *t)
-{
-	if (t->move_up && t->move_right)
-	{
-		movement(t, t->y_dir - t->x_dir, t->x_dir + t->y_dir, 1);
-		return (1);
-	}
-	if (t->move_up && t->move_left)
-	{
-		movement(t, t->y_dir + t->x_dir, t->x_dir - t->y_dir, 1);
-		return (1);
-	}
-	if (t->move_down && t->move_right)
-	{
-		movement(t, -t->y_dir - t->x_dir, -t->x_dir + t->y_dir, 1);
-		return (1);
-	}
-	if (t->move_down && t->move_left)
-	{
-		movement(t, -t->y_dir + t->x_dir, -t->x_dir - t->y_dir, 1);
-		return (1);
-	}
-	return (0);
-}
-
 int			move(t_cub3d *t)
 {
-	if (!move_diag(t))
+	if (t->move_up && t->move_right)
+		movement(t, t->y_dir - t->x_dir, t->x_dir + t->y_dir, 1);
+	else if (t->move_up && t->move_left)
+		movement(t, t->y_dir + t->x_dir, t->x_dir - t->y_dir, 1);
+	else if (t->move_down && t->move_right)
+		movement(t, -t->y_dir - t->x_dir, -t->x_dir + t->y_dir, 1);
+	else if (t->move_down && t->move_left)
+		movement(t, -t->y_dir + t->x_dir, -t->x_dir - t->y_dir, 1);
+	else
 	{
 		if (t->move_up)
 			movement(t, t->y_dir, t->x_dir, 0);
