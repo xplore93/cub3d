@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 12:09:03 by estina            #+#    #+#             */
-/*   Updated: 2019/12/16 15:31:18 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/17 20:21:17 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 # include "libft/libft.h"
 # include <math.h>
-# include <mlx.h>
+# include "mlx/mlx.h"
 # include <fcntl.h>
 # include <stdio.h>
 # define MAX_W	2560
@@ -41,6 +41,8 @@ typedef struct		s_tex
 	int				sizeline;
 	int				endian;
 	char			*addr;
+	int				x;
+	int				y;
 }					t_tex;
 
 typedef struct		s_cub3d
@@ -134,7 +136,7 @@ int					move(t_cub3d *t);
 void				tracing_handle(t_cub3d *set);
 
 void				floor_and_ceiling(t_cub3d *t, int x);
-void				put_pxl_to_img(t_cub3d *t, int x, int y, int color);
+void				put_pxl_to_img(t_cub3d *t, int x, int y);
 void				draw_wall(int x, int start, int end, t_cub3d *t);
 void				draw_sky(t_cub3d *t);
 void				load_textures(t_cub3d *t);

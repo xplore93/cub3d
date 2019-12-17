@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/12 19:11:16 by estina            #+#    #+#             */
-/*   Updated: 2019/12/16 16:45:26 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/17 21:03:17 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,45 +24,33 @@ void	floor_and_ceiling(t_cub3d *t, int x)
 	}
 }
 
-void	put_pxl_to_img(t_cub3d *t, int x, int y, int color)
+void	put_pxl_to_img(t_cub3d *t, int x, int y)
 {
-	if (x < t->res[X] && y < t->res[Y])
-	{
-		t->y_text = abs((((y * 256 - t->res[Y] * 128 + t->lineheight * 128)
-					* 64) / t->lineheight) / 256);
-		ft_memcpy(t->img_ptr + 4 * t->res[X] * y + x * 4,
-				&t->tex[t->id].data[t->y_text % 64 * t->tex[t->id].sizeline +
-				t->x_text % 64 * t->tex[t->id].bpp / 8], sizeof(int));
-	}
-	else if (x < t->res[X] && y < t->res[Y])
-		ft_memcpy(t->img_ptr + 4 * t->res[X] * y + x * 4,
-				&color, sizeof(int));
+	t->y_text = abs((((y * 256 - t->res[Y] * 128 + t->lineheight * 128)
+				* t->tex[t->id].y) / t->lineheight) / 256);
+	ft_memcpy(t->img_ptr + 4 * t->res[X] * y + x * 4,
+		&t->tex[t->id].data[t->y_text * t->tex[t->id].sizeline + t->x_text * 4],
+		sizeof(int));
 }
 
 void	draw_wall(int x, int start, int end, t_cub3d *t)
 {
-	t->id = NO;
+	t->id = SO;
 	if (t->side == 0)
 		t->x_wall = t->y_raypos + t->walldist * t->y_raydir;
 	else
 	{
-		t->x_wall = t->x_raypos + t->walldist * t->x_raydir;
-		t->id = EA;
-	}
-	t->x_text = (int)(t->x_wall * (double)(64));
-	if (t->side == 0 && t->x_raydir > 0)
-	{
-		t->x_text = 64 - t->x_text - 1;
-		t->id = SO;
-	}
-	if (t->side == 1 && t->y_raydir < 0)
-	{
-		t->x_text = 64 - t->x_text - 1;
 		t->id = WE;
+		t->x_wall = t->x_raypos + t->walldist * t->x_raydir;
 	}
-	t->x_text = abs(t->x_text);
+	t->x_wall -= floor(t->x_wall);
+	if (t->side == 0 && t->x_raydir > 0)
+		t->id = NO;
+	if (t->side == 1 && t->y_raydir < 0)
+		t->id = EA;
+	t->x_text = abs((int)(t->x_wall * (double)(t->tex[t->id].x)));
 	while (++start <= end)
-		put_pxl_to_img(t, x, start, t->color[X]);
+		put_pxl_to_img(t, x, start);
 }
 
 void	draw_sky(t_cub3d *t)
