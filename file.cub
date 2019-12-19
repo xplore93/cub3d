@@ -1,6 +1,6 @@
 R 1920 1080
 NO ./textures/wallNO.xpm
-SO ./textures/wallNO.xpm
+SO ./textures/wallSO.xpm
 WE ./textures/wallWE.xpm
 EA ./textures/wallEA.xpm
 S ./textures/barrel.xpm

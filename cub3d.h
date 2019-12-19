@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 12:09:03 by estina            #+#    #+#             */
-/*   Updated: 2019/12/17 20:21:17 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/18 12:31:46 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,10 @@ int					key_press(int keycode, t_cub3d *t);
 int					key_release(int keycode, t_cub3d *t);
 int					move(t_cub3d *t);
 void				tracing_handle(t_cub3d *set);
+void				sprite_handle(t_cub3d *t, int x, int start, int end);
+
+void				ray_casting_init(t_cub3d *t, int x, char c);
+void				dda(t_cub3d *t, char c);
 
 void				floor_and_ceiling(t_cub3d *t, int x);
 void				put_pxl_to_img(t_cub3d *t, int x, int y);
