@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 16:01:30 by estina            #+#    #+#             */
-/*   Updated: 2019/12/18 00:01:50 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/20 23:59:11 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ static void	movement(t_cub3d *t, double x, double y, int diag)
 	ms = t->ms;
 	if (diag)
 		ms /= sqrt(2);
-	if (t->map[(int)(t->y_pos)]
-		[(int)(t->x_pos + x * (ms + 0.2))] == '0')
+	if (t->map[(int)(t->x_raypos)]
+		[(int)(t->y_raypos + x * (ms + 0.2))] != '1')
 		t->x_pos += x * ms;
 	if (t->map[(int)(t->y_pos + y * (ms + 0.2))]
-		[(int)(t->x_pos)] == '0')
+		[(int)(t->x_pos)] != '1')
 		t->y_pos += y * ms;
 }
 
@@ -72,5 +72,7 @@ int			move(t_cub3d *t)
 	}
 	look_side(t);
 	tracing_handle(t);
+	mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);
+	mlx_destroy_image(t->mlx, t->img);
 	return (0);
 }

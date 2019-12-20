@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 12:09:03 by estina            #+#    #+#             */
-/*   Updated: 2019/12/18 12:31:46 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/20 23:31:48 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,38 @@
 # define K_L	123
 # define K_R	124
 
+typedef struct		s_sprite
+{
+	float			x;
+	float			y;
+	float			dist;
+	float			sprite_x;
+	float			sprite_y;
+	int				screen_x;
+	int				screen_y;
+	int				height;
+	int				draw_s_y;
+	int				draw_e_y;
+	int				width;
+	int				draw_s_x;
+	int				draw_e_x;
+	struct s_sprite	*next;
+}					t_sprite;
+
+typedef struct		s_mini_map
+{
+	int				map;
+	int				player;
+}					t_mini_map;
+
+typedef struct		s_anchor
+{
+	int				x;
+	int				y;
+	int				y_goal;
+	int				x_goal;
+}					t_anchor;
+
 typedef struct		s_tex
 {
 	void			*img;
@@ -48,6 +80,10 @@ typedef struct		s_tex
 typedef struct		s_cub3d
 {
 	t_tex			tex[6];
+	t_mini_map		m_map;
+	t_sprite		*sprite;
+
+	float			z_buffer[MAX_W];
 
 	void			*mlx;
 	void			*win;
@@ -85,6 +121,7 @@ typedef struct		s_cub3d
 	int				map_cols;
 	int				map_rows;
 	int				fd;
+	int				num_sprite;
 
 	char			**map;
 
@@ -133,16 +170,23 @@ int					set_sprite(t_cub3d *t, char *line);
 int					key_press(int keycode, t_cub3d *t);
 int					key_release(int keycode, t_cub3d *t);
 int					move(t_cub3d *t);
-void				tracing_handle(t_cub3d *set);
-void				sprite_handle(t_cub3d *t, int x, int start, int end);
-
-void				ray_casting_init(t_cub3d *t, int x, char c);
-void				dda(t_cub3d *t, char c);
+void				tracing_handle(t_cub3d *t);
 
 void				floor_and_ceiling(t_cub3d *t, int x);
 void				put_pxl_to_img(t_cub3d *t, int x, int y);
 void				draw_wall(int x, int start, int end, t_cub3d *t);
 void				draw_sky(t_cub3d *t);
 void				load_textures(t_cub3d *t);
+
+void				set_mini_map(t_cub3d *t, t_mini_map *m_map);
+void				render_map(t_cub3d *t);
+void				render_player(t_cub3d *t);
+
+void				init_sprite(t_cub3d *t, int x, int y);
+void				generate_sprite(t_cub3d *t);
+void				ft_check_if_visible(t_cub3d *t);
+void				render_sprite(t_cub3d *t, t_sprite *sprite);
+
+void				screen_shot(t_cub3d *t);
 
 #endif

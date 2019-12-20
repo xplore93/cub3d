@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 07:50:26 by estina            #+#    #+#             */
-/*   Updated: 2019/12/13 13:48:55 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/20 23:33:31 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void		check_file(int argc, char **argv, t_cub3d *t)
 {
 	int		ch;
 
-	if (argc != 2)
+	if (argc < 2 || argc > 3)
 		error_handle(t, "Usage: ./cub3D <file>");
 	t->fd = open(argv[1], O_RDONLY);
 	if (t->fd < 0)

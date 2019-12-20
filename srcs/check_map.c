@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 13:35:31 by estina            #+#    #+#             */
-/*   Updated: 2019/12/16 17:53:53 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/20 19:05:35 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ static void	set_dir(t_cub3d *t, int i, int j)
 	}
 	else
 		set_dir_ea_we(t, c);
-	t->x_pos = j;
-	t->y_pos = i;
+	t->x_pos = j + 0.5;
+	t->y_pos = i + 0.5;
 	t->map[i][j] = '0';
 }
 
@@ -87,6 +87,8 @@ static void	check_values(t_cub3d *t)
 		j = -1;
 		while (++j < t->map_cols)
 		{
+			if (t->map[i][j] == '2')
+				init_sprite(t, i, j);
 			if (!ft_strchr("012NSEW", t->map[i][j]))
 				error_handle(t, "Forbidden character on map");
 			if (ft_strchr("NSEW", t->map[i][j]))
@@ -98,8 +100,7 @@ static void	check_values(t_cub3d *t)
 			}
 		}
 	}
-	if (!found)
-		error_handle(t, "There is no position on map");
+	return (found ? NULL : error_handle(t, "There is no position on map"));
 }
 
 void		check_map(t_cub3d *t)

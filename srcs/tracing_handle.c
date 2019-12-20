@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 18:20:16 by estina            #+#    #+#             */
-/*   Updated: 2019/12/18 12:30:50 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/21 00:03:14 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	dda_init(t_cub3d *t)
 	}
 }
 
-void	dda(t_cub3d *t, char c)
+void	dda(t_cub3d *t)
 {
 	t->hit = 0;
 	while (t->hit == 0)
@@ -55,12 +55,12 @@ void	dda(t_cub3d *t, char c)
 			t->y_map += t->y_step;
 			t->side = 1;
 		}
-		if (t->map[t->x_map][t->y_map] == c)
+		if (t->map[t->x_map][t->y_map] == '1')
 			t->hit = 1;
 	}
 }
 
-void	ray_casting_init(t_cub3d *t, int x, char c)
+void	ray_casting_init(t_cub3d *t, int x)
 {
 	t->x_cam = 2 * x / (double)(t->res[X]) - 1;
 	t->x_raypos = t->y_pos;
@@ -70,7 +70,7 @@ void	ray_casting_init(t_cub3d *t, int x, char c)
 	t->x_map = (int)t->x_raypos;
 	t->y_map = (int)t->y_raypos;
 	dda_init(t);
-	dda(t, c);
+	dda(t);
 	if (t->side == 0)
 		t->walldist = (t->x_map - t->x_raypos +
 				(1 - t->x_step) / 2) / t->x_raydir;
@@ -87,7 +87,7 @@ void	tracing_handle(t_cub3d *t)
 	draw_sky(t);
 	while (++t->x < t->res[X])
 	{
-		ray_casting_init(t, t->x, '1');
+		ray_casting_init(t, t->x);
 		t->lineheight = (int)(t->res[Y] / t->walldist);
 		t->start = -t->lineheight / 2 + t->res[Y] / 2;
 		if (t->start < 0)
@@ -96,9 +96,10 @@ void	tracing_handle(t_cub3d *t)
 		if (t->end >= t->res[Y])
 			t->end = t->res[Y] - 1;
 		draw_wall(t->x, t->start - 1, t->end, t);
-		sprite_handle(t, t->x, t->start - 1, t->end);
+		t->z_buffer[t->x] = t->walldist;
 		floor_and_ceiling(t, t->x);
 	}
-	mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);
-	mlx_destroy_image(t->mlx, t->img);
+	generate_sprite(t);
+	render_map(t);
+	render_player(t);
 }
