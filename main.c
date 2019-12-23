@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 13:06:38 by estina            #+#    #+#             */
-/*   Updated: 2019/12/20 23:54:23 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/23 11:34:29 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		cub3d_init(t_cub3d *t)
 	t->x_text = 0;
 	t->y_text = 0;
 	t->num_sprite = 0;
+	t->levid = 0;
 }
 
 int			main(int argc, char **argv)

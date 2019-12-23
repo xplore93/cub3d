@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/12 19:11:16 by estina            #+#    #+#             */
-/*   Updated: 2019/12/20 20:47:51 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/23 12:43:42 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,52 @@
 
 void	floor_and_ceiling(t_cub3d *t, int x)
 {
-	if (t->end > 0)
+	if (t->side == 0 && t->x_raydir > 0)
+	{
+		t->x_floor = t->x_map;
+		t->y_floor = t->y_map + t->x_wall;
+	}
+	else if (t->side == 0 && t->x_raydir < 0)
+	{
+		t->x_floor = t->x_map + 1.0;
+		t->y_floor = t->y_map + t->x_wall;
+	}
+	else if (t->side == 1 && t->y_raydir > 0)
+	{
+		t->x_floor = t->x_map + t->x_wall;
+		t->y_floor = t->y_map;
+	}
+	else
+	{
+		t->x_floor = t->x_map + t->x_wall;
+		t->y_floor = t->y_map + 1.0;
+	}
+	t->walldist = t->walldist;
+	if (t->end < 0)
+		t->end = t->res[Y];
+	while (++t->end < t->res[Y])
+	{
+		t->curdist = t->res[Y] / (2.0 * t->end - t->res[Y]);
+		t->weight = t->curdist / t->walldist;
+		t->x_curfloortext = t->weight * t->x_floor + (1.0 - t->weight) *
+		t->x_pos;
+		t->y_curfloortext = t->weight * t->y_floor + (1.0 - t->weight) *
+		t->y_pos;
+		t->x_floortext = (int)(t->x_curfloortext * t->tex[4].x) % t->tex[4].x;
+		t->y_floortext = (int)(t->y_curfloortext * t->tex[4].y) % t->tex[4].y;
+		ft_memcpy(t->img_ptr + 4 * t->res[X] * t->end + x * 4,
+			&t->tex[4].data[t->tex[4].x * t->y_floortext + t->x_floortext],
+			sizeof(int));
+	}
+	
+	/*if (t->end > 0)
 	{
 		t->y = t->end - 1;
 		if (x < t->res[X] && t->y < t->res[Y])
 			while (++t->y < t->res[Y])
 				ft_memcpy(t->img_ptr + 4 * t->res[X] * t->y + x * 4,
 						&t->color[X], sizeof(int));
-	}
+	}*/
 }
 
 void	put_pxl_to_img(t_cub3d *t, int x, int y)

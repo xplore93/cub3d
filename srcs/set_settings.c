@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 16:46:26 by estina            #+#    #+#             */
-/*   Updated: 2019/12/13 15:06:12 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/23 11:03:27 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int			set_sprite(t_cub3d *t, char *line)
 {
 	while (*line && *line == ' ')
 		line++;
-	t->tex[4].addr = ft_strdup(line);
+	t->level[0].addr = ft_strdup(line);
 	return (1);
 }
 

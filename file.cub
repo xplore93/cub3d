@@ -1,9 +1,9 @@
-R 1500 1000
+R 1024 720
 NO ./textures/wallNO.xpm
 SO ./textures/wallSO.xpm
 WE ./textures/wallWE.xpm
 EA ./textures/wallEA.xpm
-S ./textures/barrel.xpm
+S ./textures/level/level
 F 220,100,0
 C 225,30,0
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1

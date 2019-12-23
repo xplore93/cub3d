@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 12:09:03 by estina            #+#    #+#             */
-/*   Updated: 2019/12/20 23:31:48 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/23 12:17:48 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct		s_tex
 typedef struct		s_cub3d
 {
 	t_tex			tex[6];
+	t_tex			level[69];
 	t_mini_map		m_map;
 	t_sprite		*sprite;
 
@@ -111,7 +112,6 @@ typedef struct		s_cub3d
 	int				x_text;
 	int				y_text;
 	int				id;
-	int				texture;
 	int				x_floortext;
 	int				y_floortext;
 	int				x;
@@ -122,6 +122,7 @@ typedef struct		s_cub3d
 	int				map_rows;
 	int				fd;
 	int				num_sprite;
+	int				levid;
 
 	char			**map;
 

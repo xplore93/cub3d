@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/20 13:57:34 by estina            #+#    #+#             */
-/*   Updated: 2019/12/20 23:32:33 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/23 11:43:00 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ static void	render_sprite_3(t_cub3d *t, t_sprite *s, int tex_x, int stripe)
 	while (y < s->draw_e_y)
 	{
 		d = y * 256 - t->res[Y] * 128 + s->height * 128;
-		tex_y = (d * t->tex[4].y) / s->height / 256;
-		color = (int)t->tex[4].data[tex_y * t->tex[4].sizeline + tex_x * 4];
+		tex_y = (d * t->level[t->levid].y) / s->height / 256;
+		color = (int)t->level[t->levid].data[tex_y *
+			t->level[t->levid].sizeline + tex_x * 4];
 		if ((color & 0x00FFFFFF) != 0)
 			ft_memcpy(t->img_ptr + 4 * t->res[X] * y + stripe * 4,
-				&t->tex[4].data[tex_y * t->tex[4].sizeline + tex_x * 4],
-				sizeof(int));
+				&t->level[t->levid].data[tex_y * t->level[t->levid].sizeline +
+				tex_x * 4], sizeof(int));
 		y++;
 	}
 }
@@ -39,10 +40,14 @@ static void	render_sprite_2(t_cub3d *t, t_sprite *s, double y_trans)
 	int		tex_x;
 
 	stripe = s->draw_s_x;
+	if (t->levid > 67)
+		t->levid = 0;
+	else
+		t->levid++;
 	while (stripe < s->draw_e_x)
 	{
 		tex_x = (int)(256 * (stripe - (-s->width / 2 + s->screen_x))
-			* t->tex[4].x / s->width) / 256;
+			* t->level[t->levid].x / s->width) / 256;
 		if (y_trans > 0 && stripe > 0 && stripe < t->res[X] && y_trans
 			< t->z_buffer[stripe])
 			render_sprite_3(t, s, tex_x, stripe);
@@ -62,8 +67,8 @@ void		render_sprite(t_cub3d *t, t_sprite *s)
 	x_trans = inv * (t->y_dir * s->sprite_x - t->x_dir * s->sprite_y);
 	y_trans = inv * (-t->y_plane * s->sprite_x + t->x_plane * s->sprite_y);
 	s->screen_x = (int)((t->res[X] / 2) * (1 + x_trans / y_trans));
-	s->height = abs((int)(t->res[Y] / y_trans));
-	s->draw_s_y = -s->height / 2 + t->res[Y] / 2 + (t->tex[4].x / y_trans);
+	s->height = abs((int)(t->res[Y] / y_trans)) / 2;
+	s->draw_s_y = -s->height / 2 + t->res[Y] / 2;
 	if (s->draw_s_y < 0)
 		s->draw_s_y = 0;
 	s->draw_e_y = s->height / 2 + t->res[Y] / 2;
