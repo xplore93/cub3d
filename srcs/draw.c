@@ -6,13 +6,13 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/12 19:11:16 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 09:08:39 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/24 09:41:15 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	floor_and_ceiling(t_cub3d *t, int x)
+static void	set_floor(t_cub3d *t)
 {
 	if (t->side == 0 && t->x_raydir > 0)
 	{
@@ -34,6 +34,11 @@ void	floor_and_ceiling(t_cub3d *t, int x)
 		t->x_floor = t->x_map + t->x_wall;
 		t->y_floor = t->y_map + 1.0;
 	}
+}
+
+void		floor_and_ceiling(t_cub3d *t, int x)
+{
+	set_floor(t);
 	if (t->end < 0)
 		t->end = t->res[Y];
 	while (++t->end < t->res[Y])
@@ -52,7 +57,7 @@ void	floor_and_ceiling(t_cub3d *t, int x)
 	}
 }
 
-void	put_pxl_to_img(t_cub3d *t, int x, int y)
+void		put_pxl_to_img(t_cub3d *t, int x, int y)
 {
 	t->y_text = abs((((y * 256 - t->res[Y] * 128 + t->lineheight * 128)
 				* t->tex[t->id].y) / t->lineheight) / 256);
@@ -61,7 +66,7 @@ void	put_pxl_to_img(t_cub3d *t, int x, int y)
 		sizeof(int));
 }
 
-void	draw_wall(int x, int start, int end, t_cub3d *t)
+void		draw_wall(int x, int start, int end, t_cub3d *t)
 {
 	t->id = SO;
 	if (t->side == 0)
@@ -87,7 +92,7 @@ void	draw_wall(int x, int start, int end, t_cub3d *t)
 		put_pxl_to_img(t, x, start);
 }
 
-void	draw_sky(t_cub3d *t)
+void		draw_sky(t_cub3d *t)
 {
 	t->x_text = 0;
 	while (t->x_text < t->res[X])
