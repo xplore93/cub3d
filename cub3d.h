@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 12:09:03 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 09:10:39 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/24 10:57:00 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct		s_tex
 
 typedef struct		s_cub3d
 {
-	t_tex			tex[6];
+	t_tex			tex[7];
 	t_tex			level[69];
 	t_mini_map		m_map;
 	t_sprite		*sprite;
@@ -173,11 +173,12 @@ int					key_release(int keycode, t_cub3d *t);
 int					move(t_cub3d *t);
 void				tracing_handle(t_cub3d *t);
 
-void				floor_and_ceiling(t_cub3d *t, int x);
+void				draw_floor(t_cub3d *t, int x, int start, int end);
 void				put_pxl_to_img(t_cub3d *t, int x, int y);
 void				draw_wall(int x, int start, int end, t_cub3d *t);
 void				draw_sky(t_cub3d *t);
 void				load_textures(t_cub3d *t);
+void				draw_ceiling(t_cub3d *t, int x, int start, int end);
 
 void				set_mini_map(t_cub3d *t, t_mini_map *m_map);
 void				render_map(t_cub3d *t);

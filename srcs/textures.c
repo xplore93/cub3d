@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/12 20:33:01 by estina            #+#    #+#             */
-/*   Updated: 2019/12/23 12:21:02 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/24 10:26:55 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void		load_textures(t_cub3d *t)
 	int		i;
 
 	i = -1;
-	while (++i < 4)
+	while (++i < 6)
 	{
 		check(t, t->tex[i].addr);
 		t->tex[i].img = mlx_xpm_file_to_image(t->mlx, t->tex[i].addr,
@@ -67,12 +67,6 @@ void		load_textures(t_cub3d *t)
 				&t->tex[i].sizeline, &t->tex[i].endian);
 	}
 	load_level(t, -1);
-	check(t, "textures/floor.xpm");
-	t->tex[i].img = mlx_xpm_file_to_image(t->mlx, "textures/floor.xpm",
-				&t->tex[i].x, &t->tex[i].y);
-	t->tex[i].data = mlx_get_data_addr(t->tex[i].img, &t->tex[i].bpp,
-			&t->tex[i].sizeline, &t->tex[i].endian);
-	i++;
 	check(t, "textures/sky.xpm");
 	t->tex[i].img = mlx_xpm_file_to_image(t->mlx, "textures/sky.xpm",
 				&t->tex[i].x, &t->tex[i].y);

@@ -4,8 +4,8 @@ SO ./textures/wallSO.xpm
 WE ./textures/wallWE.xpm
 EA ./textures/wallEA.xpm
 S ./textures/level/level
-F 220,100,0
-C 225,30,0
+F ./textures/floor.xpm
+C ./textures/roof.xpm
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 1 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 1 0 1 1 0 0 0 0 0 1 1 1 0 0 0 0 0 0 2 0 0 0 0 0 1 0 0 0 1

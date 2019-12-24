@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 16:46:26 by estina            #+#    #+#             */
-/*   Updated: 2019/12/23 11:03:27 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/24 10:26:47 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,15 @@ int			set_sprite(t_cub3d *t, char *line)
 
 int			set_floor_ceilling_color(t_cub3d *t, char *line)
 {
-	char	**colors;
-	int		*color;
+	int		i;
 
-	color = &t->color[*line == 'F' ? X : Y];
-	line = ft_strrchr(line, ' ') + 1;
-	if (!(colors = ft_split(line, ',')))
-		error_handle(t, "Wrong format of colors");
-	*color = (atoi(colors[0]) << 16) + (atoi(colors[1]) << 8) + atoi(colors[2]);
+	i = 5;
+	if (*line == 'F')
+		i = 4;
+	line++;
+	while (*line && *line == ' ')
+		line++;
+	t->tex[i].addr = ft_strdup(line);
 	return (1);
 }
 

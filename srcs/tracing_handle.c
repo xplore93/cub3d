@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 18:20:16 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 08:34:24 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/24 11:23:27 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,10 @@ void	tracing_handle(t_cub3d *t)
 			t->end = t->res[Y] - 1;
 		draw_wall(t->x, t->start - 1, t->end, t);
 		t->z_buffer[t->x] = t->walldist;
-		floor_and_ceiling(t, t->x);
+		t->id = 4;
+		draw_floor(t, t->x, t->end - 1, t->res[Y]);
+		t->id = 5;
+		draw_ceiling(t, t->x, 0, t->start);
 	}
 	generate_sprite(t);
 	render_map(t);
