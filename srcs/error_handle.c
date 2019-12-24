@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 07:54:02 by estina            #+#    #+#             */
-/*   Updated: 2019/12/17 19:39:35 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/24 08:35:57 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	error_handle(t_cub3d *t, const char *s)
 		close(t->fd);
 	if (t->win)
 		mlx_destroy_window(t->mlx, t->win);
+	if (t->img)
+		mlx_destroy_image(t->mlx, t->img);
 	exit(1);
 }
 
@@ -49,6 +51,7 @@ int		exit_program(t_cub3d *t)
 	}
 	if (t->fd > 0)
 		close(t->fd);
+	mlx_destroy_image(t->mlx, t->img);
 	mlx_destroy_window(t->mlx, t->win);
 	exit(0);
 	return (0);

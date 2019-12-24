@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 12:09:03 by estina            #+#    #+#             */
-/*   Updated: 2019/12/23 12:17:48 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/24 09:10:39 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,6 @@ void				generate_sprite(t_cub3d *t);
 void				ft_check_if_visible(t_cub3d *t);
 void				render_sprite(t_cub3d *t, t_sprite *sprite);
 
-void				screen_shot(t_cub3d *t);
+int					save_bmp(t_cub3d *t);
 
 #endif

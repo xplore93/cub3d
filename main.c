@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 13:06:38 by estina            #+#    #+#             */
-/*   Updated: 2019/12/23 11:34:29 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/24 09:14:52 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ int			main(int argc, char **argv)
 	read_map(&t);
 	close(t.fd);
 	set_mini_map(&t, &t.m_map);
+	t.img = mlx_new_image(t.mlx, t.res[X], t.res[Y]);
+	t.img_ptr = mlx_get_data_addr(t.img, &t.bpp, &t.sl, &t.endian);
 	if (argc == 3 && (!ft_strncmp(argv[2], "--save", 7)))
 	{
-		screen_shot(&t);
+		save_bmp(&t);
 		return (0);
 	}
 	mlx_hook(t.win, 17, 0, exit_program, &t);

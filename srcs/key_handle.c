@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 16:01:30 by estina            #+#    #+#             */
-/*   Updated: 2019/12/20 23:59:11 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/24 08:35:24 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,5 @@ int			move(t_cub3d *t)
 	look_side(t);
 	tracing_handle(t);
 	mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);
-	mlx_destroy_image(t->mlx, t->img);
 	return (0);
 }

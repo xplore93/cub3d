@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 18:20:16 by estina            #+#    #+#             */
-/*   Updated: 2019/12/23 12:21:47 by estina           ###   ########.fr       */
+/*   Updated: 2019/12/24 08:34:24 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void	ray_casting_init(t_cub3d *t, int x)
 void	tracing_handle(t_cub3d *t)
 {
 	t->x = -1;
-	t->img = mlx_new_image(t->mlx, t->res[X], t->res[Y]);
-	t->img_ptr = mlx_get_data_addr(t->img, &t->bpp, &t->sl, &t->endian);
 	draw_sky(t);
 	while (++t->x < t->res[X])
 	{
