@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/20 23:22:14 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 09:29:39 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/05 21:13:55 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,8 @@ static int		get_color(t_cub3d *t, int x, int y)
 	int	rgb;
 	int	color;
 
-	color = *(int*)(t->img_ptr
-			+ (4 * t->res[X] * (t->res[Y] - 1 - y))
-			+ (4 * x));
+	color = *(int*)(t->img_ptr + (4 * t->res[X] * (t->res[Y] - 1 - y))
+		+ (4 * x));
 	rgb = (color & 0xFF0000) | (color & 0x00FF00) | (color & 0x0000FF);
 	return (rgb);
 }
@@ -87,7 +86,7 @@ int				save_bmp(t_cub3d *t)
 	pad = (4 - (t->res[X] * 3) % 4) % 4;
 	filesize = 54 + (3 * (t->res[X] + pad) * t->res[Y]);
 	if ((file = open("screenshot.bmp", O_WRONLY | O_CREAT
-									| O_TRUNC | O_APPEND)) < 0)
+		| O_TRUNC | O_APPEND, 777)) < 0)
 		return (0);
 	if (!write_bmp_header(file, filesize, t))
 		return (0);

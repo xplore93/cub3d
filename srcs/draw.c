@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/12 19:11:16 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 11:17:01 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/05 15:44:48 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,23 @@ void		draw_floor(t_cub3d *t, int x, int start, int end)
 		t->y_floortext = (int)(t->y_curfloortext * t->tex[t->id].y) %
 			t->tex[t->id].y;
 		ft_memcpy(t->img_ptr + 4 * t->res[X] * start + 4 * x,
-			&t->tex[t->id].data[4 * t->tex[t->id].x * t->x_floortext + 4 * t->y_floortext], sizeof(int));
+			&t->tex[t->id].data[4 * t->tex[t->id].x * t->x_floortext +
+			4 * t->y_floortext], sizeof(int));
+		if ((int)t->tex[5].data[4 * t->tex[5].x * t->x_floortext +
+			4 * t->y_floortext])
+			ft_memcpy(t->img_ptr + 4 * ((t->res[Y] - start) * t->res[X]) +
+				4 * x, &t->tex[5].data[4 * t->tex[5].x * t->x_floortext +
+				4 * t->y_floortext], sizeof(int));
 	}
 }
 
 void		put_pxl_to_img(t_cub3d *t, int x, int y)
 {
 	t->y_text = fabs((((y * 2 - t->res[Y] + t->lineheight)
-				* t->tex[t->id].y) / t->lineheight) * 0.5);
+		* t->tex[t->id].y) / t->lineheight) * 0.5);
 	ft_memcpy(t->img_ptr + 4 * t->res[X] * y + x * 4,
-		&t->tex[t->id].data[t->y_text * t->tex[t->id].sizeline + t->x_text * 4],
-		sizeof(int));
+		&t->tex[t->id].data[t->y_text * t->tex[t->id].sizeline + t->x_text
+		* 4], sizeof(int));
 }
 
 void		draw_wall(int x, int start, int end, t_cub3d *t)
@@ -91,7 +97,7 @@ void		draw_sky(t_cub3d *t)
 	while (t->x_text < t->res[X])
 	{
 		t->y_text = 0;
-		while (t->y_text < t->res[Y] / 2)
+		while (t->y_text < (int)(t->res[Y] / 2))
 		{
 			ft_memcpy(t->img_ptr + 4 * t->res[X] * t->y_text + t->x_text * 4,
 					&t->tex[6].data[t->y_text % 512 * t->tex[6].sizeline +

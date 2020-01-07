@@ -6,7 +6,7 @@
 #    By: estina <estina@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/12/05 12:56:12 by estina            #+#    #+#              #
-#    Updated: 2019/12/17 19:59:47 by estina           ###   ########.fr        #
+#    Updated: 2020/01/07 13:52:03 by estina           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,16 @@ OBJ 			=	$(MAIN:.c=.o)
 SOBJ 			=	$(SRCS:.c=.o)
 LIBS			=	libft/libft.a mlx/libmlx.a
 CC				=	@gcc -Wall -Wextra -Werror
-FLAGS			=	-framework OpenGL -framework AppKit
+FLAGS			=	-lmlx -framework OpenGL -framework AppKit
 
 all: $(NAME)
 
 $(NAME):
+	-@make -C libft
+	-@make -C mlx --silent
+	-$(CC) $(HEADER) $(MAIN) $(SRCS) $(LIBS) -o $(NAME) $(FLAGS)
+
+bonus:
 	-@make -C libft
 	-@make -C mlx --silent
 	-$(CC) $(HEADER) $(MAIN) $(SRCS) $(LIBS) -o $(NAME) $(FLAGS)

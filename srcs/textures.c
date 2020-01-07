@@ -6,13 +6,13 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/12 20:33:01 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 10:26:55 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/05 21:08:28 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-static void	check(t_cub3d *t, char *file)
+void		check(t_cub3d *t, char *file)
 {
 	int		ch;
 	int		fd;
@@ -33,24 +33,22 @@ static void	check(t_cub3d *t, char *file)
 		error_handle(t, "texture is not a .xpm extension");
 }
 
-static void	load_level(t_cub3d *t, int i)
+static void	load_sprites(t_cub3d *t)
 {
-	char	*adr;
-	char	*aux;
+	int		i;
 
-	adr = t->level[0].addr;
-	while(++i < 69)
+	t->sprite_tex[1].addr = "textures/sprite/weapon.xpm";
+	t->sprite_tex[2].addr = "textures/sprite/enemy.xpm";
+	i = -1;
+	while (++i < 3)
 	{
-		aux = ft_strjoin(ft_itoa(i), ".xpm");
-		t->level[i].addr = ft_strjoin(adr, aux);
-		free(aux);
-		check(t, t->level[i].addr);
-		t->level[i].img = mlx_xpm_file_to_image(t->mlx, t->level[i].addr,
-				&t->level[i].x, &t->level[i].y);
-		t->level[i].data = mlx_get_data_addr(t->level[i].img, &t->level[i].bpp,
-				&t->level[i].sizeline, &t->level[i].endian);
+		check(t, t->sprite_tex[i].addr);
+		t->sprite_tex[i].img = mlx_xpm_file_to_image(t->mlx,
+			t->sprite_tex[i].addr, &t->sprite_tex[i].x, &t->sprite_tex[i].y);
+		t->sprite_tex[i].data = mlx_get_data_addr(t->sprite_tex[i].img,
+			&t->sprite_tex[i].bpp, &t->sprite_tex[i].sizeline,
+			&t->sprite_tex[i].endian);
 	}
-	free(adr);
 }
 
 void		load_textures(t_cub3d *t)
@@ -66,7 +64,7 @@ void		load_textures(t_cub3d *t)
 		t->tex[i].data = mlx_get_data_addr(t->tex[i].img, &t->tex[i].bpp,
 				&t->tex[i].sizeline, &t->tex[i].endian);
 	}
-	load_level(t, -1);
+	load_sprites(t);
 	check(t, "textures/sky.xpm");
 	t->tex[i].img = mlx_xpm_file_to_image(t->mlx, "textures/sky.xpm",
 				&t->tex[i].x, &t->tex[i].y);

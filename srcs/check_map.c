@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 13:35:31 by estina            #+#    #+#             */
-/*   Updated: 2019/12/20 19:05:35 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/05 16:15:10 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,8 @@ static void	check_values(t_cub3d *t)
 		j = -1;
 		while (++j < t->map_cols)
 		{
-			if (t->map[i][j] == '2')
-				init_sprite(t, i, j);
-			if (!ft_strchr("012NSEW", t->map[i][j]))
+			init_sprites(t, i, j);
+			if (!ft_strchr("01234NSEW", t->map[i][j]))
 				error_handle(t, "Forbidden character on map");
 			if (ft_strchr("NSEW", t->map[i][j]))
 			{

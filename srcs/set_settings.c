@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/05 16:46:26 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 10:26:47 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/07 13:01:43 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int			set_sprite(t_cub3d *t, char *line)
 {
 	while (*line && *line == ' ')
 		line++;
-	t->level[0].addr = ft_strdup(line);
+	t->sprite_tex[0].addr = ft_strdup(line);
 	return (1);
 }
 
@@ -60,6 +60,7 @@ int			set_resolution(t_cub3d *t, char *line)
 		error_handle(t, "There is no lines in the <file>");
 	if (!(t->res[Y] = ft_atoi(line)))
 		error_handle(t, "Wrong format of Resolution");
-	set_win_ptr(t);
+	if (!t->first)
+		set_win_ptr(t);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 16:01:30 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 08:35:24 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/07 13:32:17 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,33 @@ static void	movement(t_cub3d *t, double x, double y, int diag)
 	if (diag)
 		ms /= sqrt(2);
 	if (t->map[(int)(t->x_raypos)]
-		[(int)(t->y_raypos + x * (ms + 0.2))] != '1')
+		[(int)(t->y_raypos + x * (ms + 0.2))] != '1'
+			&& t->map[(int)(t->x_raypos)][(int)(t->y_raypos + x * (ms + 0.2))]
+			!= '4')
 		t->x_pos += x * ms;
 	if (t->map[(int)(t->y_pos + y * (ms + 0.2))]
-		[(int)(t->x_pos)] != '1')
+		[(int)(t->x_pos)] != '1' && t->map[(int)(t->y_pos + y * (ms + 0.2))]
+		[(int)(t->x_pos)] != '4')
 		t->y_pos += y * ms;
+}
+
+static void	dead_or_not(t_cub3d *t)
+{
+	if (t->life <= 0)
+		end_game(t);
+	else
+	{
+		look_side(t);
+		tracing_handle(t);
+		mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);
+		draw_text(t);
+		if (t->enemies == 0)
+		{
+			t->file[1] = "maps/map1basic.cub";
+			restart(t);
+			load_textures(t);
+		}
+	}
 }
 
 int			move(t_cub3d *t)
@@ -70,8 +92,6 @@ int			move(t_cub3d *t)
 		if (t->move_left)
 			movement(t, t->x_dir, -t->y_dir, 0);
 	}
-	look_side(t);
-	tracing_handle(t);
-	mlx_put_image_to_window(t->mlx, t->win, t->img, 0, 0);
+	dead_or_not(t);
 	return (0);
 }

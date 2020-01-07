@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 09:50:22 by estina            #+#    #+#             */
-/*   Updated: 2019/12/16 14:19:22 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/06 12:39:27 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,14 @@ void		read_map(t_cub3d *t)
 			handle_map(t, line, &aux);
 			t->map_rows++;
 		}
+		free(line);
 	}
 	if (ft_strlen(line))
 	{
 		handle_map(t, line, &aux);
 		t->map_rows++;
 	}
+	free(line);
 	if (!(t->map = ft_split(aux, '\n')))
 		error_handle(t, "Failed when splitting the map");
 	free(aux);

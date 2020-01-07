@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/11 18:20:16 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 11:23:27 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/06 19:55:04 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ void	dda(t_cub3d *t)
 		}
 		if (t->map[t->x_map][t->y_map] == '1')
 			t->hit = 1;
+		if (t->map[t->x_map][t->y_map] == '4' && t->fire)
+		{
+			t->fire = 0;
+			kill_enemy(t);
+			t->hit = 1;
+		}
 	}
 }
 
@@ -81,8 +87,10 @@ void	ray_casting_init(t_cub3d *t, int x)
 
 void	tracing_handle(t_cub3d *t)
 {
-	t->x = -1;
+	ft_bzero(t->img_ptr, t->res[X] * t->res[Y] * 4);
+	t->res[Y] -= t->reduce;
 	draw_sky(t);
+	t->x = -1;
 	while (++t->x < t->res[X])
 	{
 		ray_casting_init(t, t->x);
@@ -97,10 +105,10 @@ void	tracing_handle(t_cub3d *t)
 		t->z_buffer[t->x] = t->walldist;
 		t->id = 4;
 		draw_floor(t, t->x, t->end - 1, t->res[Y]);
-		t->id = 5;
-		draw_ceiling(t, t->x, 0, t->start);
 	}
 	generate_sprite(t);
+	draw_cross(t);
+	draw_hud(t);
 	render_map(t);
-	render_player(t);
+	draw_bar(t);
 }

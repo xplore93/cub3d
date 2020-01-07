@@ -6,11 +6,35 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 16:55:35 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 09:38:40 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/07 13:20:52 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void		restart(t_cub3d *t)
+{
+	t_sprite	*s;
+
+	t->first = 1;
+	t->bullets = 0;
+	t->hudid = 0;
+	t->enemies = 0;
+	t->life = t->life_full;
+	while (t->sprite)
+	{
+		s = t->sprite;
+		t->sprite = t->sprite->next;
+		free(s);
+		t->num_sprite--;
+	}
+	free(t->sprite);
+	check_file(t->args, t->file, t);
+	read_from_file(t);
+	read_map(t);
+	close(t->fd);
+	set_mini_map(t, &t->m_map);
+}
 
 int			key_press(int keycode, t_cub3d *t)
 {
@@ -28,6 +52,10 @@ int			key_press(int keycode, t_cub3d *t)
 		t->move_left = 1;
 	else if (keycode == 257)
 		t->ms = 0.2;
+	else if (keycode == 49 && t->life > 0)
+		fire(t);
+	else if (keycode == 49)
+		restart(t);
 	else if (keycode == K_ESC)
 		exit_program(t);
 	return (0);

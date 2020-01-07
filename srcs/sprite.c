@@ -6,18 +6,16 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 17:13:47 by estina            #+#    #+#             */
-/*   Updated: 2019/12/20 21:24:30 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/07 13:19:57 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void			init_sprite(t_cub3d *t, int x, int y)
+static void		init_sprite(t_cub3d *t, int x, int y, int i)
 {
-	int			i;
 	t_sprite	*sprite;
 
-	i = -1;
 	t->num_sprite++;
 	if (!(sprite = malloc(sizeof(*sprite))))
 		error_handle(t, "Can't do malloc for sprites");
@@ -27,10 +25,24 @@ void			init_sprite(t_cub3d *t, int x, int y)
 		sprite->next = t->sprite;
 	else
 		sprite->next = NULL;
+	sprite->text = i;
 	t->sprite = sprite;
 }
 
-static void		sort_sprite(t_sprite **begin)
+void			init_sprites(t_cub3d *t, int i, int j)
+{
+	if (t->map[i][j] == '2')
+		init_sprite(t, i, j, 0);
+	if (t->map[i][j] == '3')
+		init_sprite(t, i, j, 1);
+	if (t->map[i][j] == '4')
+	{
+		init_sprite(t, i, j, 2);
+		t->enemies++;
+	}
+}
+
+void			sort_sprite(t_sprite **begin)
 {
 	t_sprite	*sp;
 	t_sprite	*bef;

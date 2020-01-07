@@ -6,7 +6,7 @@
 /*   By: estina <estina@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 12:09:03 by estina            #+#    #+#             */
-/*   Updated: 2019/12/24 10:57:00 by estina           ###   ########.fr       */
+/*   Updated: 2020/01/07 13:20:57 by estina           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 # define K_A	0
 # define K_L	123
 # define K_R	124
+# define UDIV	4
+# define VDIV 	4
+# define VMOVE	0.0
 
 typedef struct		s_sprite
 {
@@ -48,6 +51,7 @@ typedef struct		s_sprite
 	int				width;
 	int				draw_s_x;
 	int				draw_e_x;
+	int				text;
 	struct s_sprite	*next;
 }					t_sprite;
 
@@ -80,7 +84,8 @@ typedef struct		s_tex
 typedef struct		s_cub3d
 {
 	t_tex			tex[7];
-	t_tex			level[69];
+	t_tex			sprite_tex[3];
+	t_tex			hud[2];
 	t_mini_map		m_map;
 	t_sprite		*sprite;
 
@@ -117,14 +122,21 @@ typedef struct		s_cub3d
 	int				x;
 	int				y;
 	int				res[2];
-	int				color[2];
+	int				color;
 	int				map_cols;
 	int				map_rows;
 	int				fd;
 	int				num_sprite;
 	int				levid;
+	int				hudid;
+	int				bullets;
+	int				fire;
+	int				args;
+	int				first;
+	int				enemies;
 
 	char			**map;
+	char			**file;
 
 	double			x_pos;
 	double			y_pos;
@@ -153,6 +165,9 @@ typedef struct		s_cub3d
 	double			y_curfloortext;
 	double			curdist;
 	double			weight;
+	double			life;
+	double			reduce;
+	int				life_full;
 }					t_cub3d;
 
 void				error_handle(t_cub3d *t, const char *s);
@@ -182,13 +197,25 @@ void				draw_ceiling(t_cub3d *t, int x, int start, int end);
 
 void				set_mini_map(t_cub3d *t, t_mini_map *m_map);
 void				render_map(t_cub3d *t);
-void				render_player(t_cub3d *t);
 
-void				init_sprite(t_cub3d *t, int x, int y);
+void				init_sprites(t_cub3d *t, int i, int j);
 void				generate_sprite(t_cub3d *t);
 void				ft_check_if_visible(t_cub3d *t);
 void				render_sprite(t_cub3d *t, t_sprite *sprite);
+void				sort_sprite(t_sprite **begin);
+
+void				check(t_cub3d *t, char *file);
+void				load_hud(t_cub3d *t);
 
 int					save_bmp(t_cub3d *t);
+void				draw_hud(t_cub3d *t);
+void				draw_bar(t_cub3d *t);
+void				draw_cross(t_cub3d *t);
+
+void				draw_text(t_cub3d *t);
+void				fire(t_cub3d *t);
+void				kill_enemy(t_cub3d *t);
+void				end_game(t_cub3d *t);
+void				restart(t_cub3d *t);
 
 #endif
